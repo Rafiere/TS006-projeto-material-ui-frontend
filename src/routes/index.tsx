@@ -4,6 +4,7 @@
  */
 
 import { Navigate, Route, Routes } from "react-router-dom";
+import { Button } from "@mui/material";
 
 /**
  * Os endereços serão buscados de cima para baixo. Se a rota
@@ -15,7 +16,7 @@ export const AppRoutes = () => { //Esse é um componente do React que conterá t
 
     return (
         <Routes>
-            <Route path="/pagina-inicial" element/>
+            <Route path="/pagina-inicial" element={<Button variant='contained' color='primary'>Teste</Button>}/>
 
             <Route path="*" element={<Navigate to="pagina-inicial"/>} />
         </Routes>
