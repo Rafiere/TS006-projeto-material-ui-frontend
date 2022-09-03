@@ -3,4 +3,21 @@
  * "export" para toda a aplicação.
  */
 
-export { };
+import { Navigate, Route, Routes } from "react-router-dom";
+
+/**
+ * Os endereços serão buscados de cima para baixo. Se a rota
+ * que foi digitada pelo usuário não for encontrada, ele cairá na
+ * rota "*", que redirecionará o usuário para o "/pagina-inicial".
+ */
+
+export const AppRoutes = () => { //Esse é um componente do React que conterá todas as rotas da aplicação.
+
+    return (
+        <Routes>
+            <Route path="/pagina-inicial" element/>
+
+            <Route path="*" element={<Navigate to="pagina-inicial"/>} />
+        </Routes>
+    );
+}
