@@ -3,4 +3,4 @@
  * "export" para toda a aplicação.
  */
 
-export { };
+export * from './light';
