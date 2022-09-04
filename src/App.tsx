@@ -4,19 +4,17 @@
  * autocompletar o código de uma melhor maneira.
  */
 
-import { ThemeProvider } from "@mui/material";
-import { light } from "@mui/material/styles/createPalette";
 import { BrowserRouter } from "react-router-dom"
 import { AppRoutes } from "./routes";
-import { LightTheme } from "./shared/themes";
+import { AppThemeProvider } from "./shared/contexts/ThemeContext";
 
 export const App = () => {
   return (
-    <ThemeProvider theme={LightTheme}>
+    <AppThemeProvider>
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>
-    </ThemeProvider>
+    </AppThemeProvider>
   );
 }
 
