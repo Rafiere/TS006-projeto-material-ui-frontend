@@ -3,6 +3,7 @@ import { cyan, yellow } from "@mui/material/colors";
 
 export const DarkTheme = createTheme({
     palette: {
+        mode: 'dark', //Com isso, o tema entende que, em algumas partes, ele terá que utilizar um texto que faça contraste com as cores escuras, ou seja, as cores dos textos serão claras quando esse tema estiver ativado.
         primary: { //A cor primária é utilizada em coisas com mais destaques.
             main: yellow[700],
             dark: yellow[800], //Quando passamos o mouse por cima do componente, ele fica um pouco mais escuro, e é essa cor que será aplicada quando o componente escurecer.
@@ -18,6 +19,11 @@ export const DarkTheme = createTheme({
         background: {
             default: '#303134', //O "default" será a cor de fundo do site.
             paper: '#202124' //O "paper" será a cor do fundo do card.
+        }
+    },
+    typography: { //Aqui, teremos configurações específicas para os componentes de tipografia.
+        allVariants: { //As tipografias serão da cor branca quando esse tema for ativado.
+            color: 'white'
         }
     }
 });
