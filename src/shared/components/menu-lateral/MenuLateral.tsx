@@ -1,7 +1,7 @@
 import { Avatar, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { useMatch, useNavigate, useResolvedPath } from "react-router";
-import { useDrawerContext } from "../../contexts";
+import { useAppThemeContext, useDrawerContext } from "../../contexts";
 
 /**
  * Drawer
@@ -87,6 +87,8 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => { //A 
 
     const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
 
+    const { toggleTheme } = useAppThemeContext();
+
     //O Material UI tem uma unidade de medida própria. Um "spacing"
     //equivale a 4 pixels. SEMPRE QUE TIVERMOS QUE UTILIZAR UM VALOR
     //FIXO, DEVEMOS UTILIZAR O SPACING AO INVÉS DO "PX".
@@ -113,6 +115,17 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => { //A 
                                     onClick={smDown ? toggleDrawerOpen : undefined}
                                 />
                             )))}
+                        </List>
+                    </Box>
+
+                    <Box>
+                        <List component="nav">
+                                <ListItemButton onClick={toggleTheme}>
+                                    <ListItemIcon>
+                                        <Icon>dark_mode</Icon>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Alternar Tema" />
+                                </ListItemButton>
                         </List>
                     </Box>
                 </Box>
