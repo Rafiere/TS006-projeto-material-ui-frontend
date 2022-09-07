@@ -1,5 +1,6 @@
 import { Avatar, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
+import { useMatch, useNavigate, useResolvedPath } from "react-router";
 import { useDrawerContext } from "../../contexts";
 
 /**
@@ -48,6 +49,34 @@ interface IMenuLateralProps {
     children: React.ReactNode
 }
 
+interface IListItemLinkProps {
+    icon: string;
+    to: string;
+    label: string;
+    onClick: (() => void) | undefined; //Esse evento servirá para fecharmos o menu lateral quando clicarmos em uma opção.
+}
+
+const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }) => {
+
+    const navigate = useNavigate();
+
+    const resolvedPath = useResolvedPath(to); //Esse hook interpretará a rota que estamos passando e deixará algumas opções disponíveis para o desenvolvedor.
+    const match = useMatch({ path: resolvedPath.pathname, end: false }); //Esse match conseguirá saber se a opção do menu está selecionada ou não, para manter ou não a cor de seleção de um elemento do drawer.
+
+    const handleClick = () => {
+        navigate(to);
+        onClick?.(); //Se a função for undefined, não será feito nada. Se ela não for undefined, ela será executada.
+    }
+
+    return (
+        <ListItemButton selected={!!match} onClick={handleClick}>
+            <ListItemIcon>
+                <Icon>{icon}</Icon>
+            </ListItemIcon>
+            <ListItemText primary={label} />
+        </ListItemButton>);
+}
+
 export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => { //A variável "children" terá todos os elementos que são filhos do componente "MenuLateral".
 
     //Esse é um hook do material e que permite o acesso ao
@@ -56,7 +85,7 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => { //A 
 
     const smDown = useMediaQuery(theme.breakpoints.down('sm')); //Se a tela estiver abaixo de "sm", ou seja, o tamanho da tela for muito pequeno, o valor da const "smDown" será "true". Quando o valor dessa const for "true", o valor da propriedade "variant" será alterado, tornando o layout responsivo.
 
-    const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
+    const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
 
     //O Material UI tem uma unidade de medida própria. Um "spacing"
     //equivale a 4 pixels. SEMPRE QUE TIVERMOS QUE UTILIZAR UM VALOR
@@ -75,14 +104,15 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => { //A 
                     <Divider />
                     <Box flex={1}>
                         <List component="nav">
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Icon>home</Icon>
-                                </ListItemIcon>
-                                <ListItemText primary="Home" />
-
-                            </ListItemButton>
-
+                            {drawerOptions.map((drawerOption => (
+                                <ListItemLink
+                                    key={drawerOption.path}
+                                    icon={drawerOption.icon}
+                                    to={drawerOption.path}
+                                    label={drawerOption.label}
+                                    onClick={smDown ? toggleDrawerOpen : undefined}
+                                />
+                            )))}
                         </List>
                     </Box>
                 </Box>
