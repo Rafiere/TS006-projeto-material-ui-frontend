@@ -1,4 +1,5 @@
 import { BarraDeFerramentas } from "../../shared/components";
+import { FerramentasDeDetalhe } from "../../shared/components/ferramentas-de-detalhe/FerramentasDeDetalhe";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 
 export const Dashboard = () => {
@@ -9,7 +10,7 @@ export const Dashboard = () => {
         {(<BarraDeFerramentas mostrarInputBuscar
         textoBotaoNovo="Nova"/>)}>
 
-            Testando
+            <FerramentasDeDetalhe/>
 
         </LayoutBaseDePagina>
     );
