@@ -10,7 +10,7 @@ export const Dashboard = () => {
         {(<BarraDeFerramentas mostrarInputBuscar
         textoBotaoNovo="Nova"/>)}>
 
-            <FerramentasDeDetalhe/>
+            <FerramentasDeDetalhe mostrarBotaoSalvarEFechar/>
 
         </LayoutBaseDePagina>
     );
