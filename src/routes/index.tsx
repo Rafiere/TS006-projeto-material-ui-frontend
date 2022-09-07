@@ -6,6 +6,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useAppThemeContext, useDrawerContext } from "../shared/contexts";
+import { useEffect } from "react";
+import { Dashboard } from "../pages";
 
 /**
  * Os endereços serão buscados de cima para baixo. Se a rota
@@ -15,12 +17,27 @@ import { useAppThemeContext, useDrawerContext } from "../shared/contexts";
 
 export const AppRoutes = () => { //Esse é um componente do React que conterá todas as rotas da aplicação.
 
-    const { toggleTheme } = useAppThemeContext();
-    const { toggleDrawerOpen } = useDrawerContext();
+    const { setDrawerOptions } = useDrawerContext();
+
+    useEffect(() => { //Basicamente, essa função configurará as opções de menu que aparecerão para o usuário, de forma dinâmica.
+        setDrawerOptions([
+            {
+                label: 'Página Inicial',
+                icon: 'home',
+                path: '/pagina-inicial'
+            },
+            {
+                label: 'Cidades',
+                icon: 'star',
+                path: '/cidades'
+            },
+        ]);
+    }, []); //O "setDrawerOptions" será executado apenas uma vez, mesmo que naveguemos entre telas diferentes.
 
     return (
         <Routes>
-            <Route path="/pagina-inicial" element={<Button variant='contained' color='primary' onClick={toggleDrawerOpen}>Toggle Drawer</Button>}/>
+            <Route path="/pagina-inicial" element={<Dashboard/>}/>
+            <Route path="/cidades"/>
 
             <Route path="*" element={<Navigate to="pagina-inicial"/>} />
         </Routes>
