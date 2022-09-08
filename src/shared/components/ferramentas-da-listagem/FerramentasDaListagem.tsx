@@ -1,4 +1,5 @@
 import { Box, Button, Icon, Paper, TextField, useTheme } from "@mui/material";
+import { Environment } from "../../environment";
 
 interface IBarraDeFerramentasProps { //Esses atributos servirão para configurarmos o input de pesquisa.
     textoDaBusca?: string;
@@ -59,7 +60,7 @@ export const BarraDeFerramentas: React.FC<IBarraDeFerramentasProps> = ({
 
             {mostrarInputBuscar && (<TextField
                 size="small"
-                placeholder="Pesquisar..."
+                placeholder={Environment.INPUT_DE_BUSCA}
                 value={textoDaBusca}
                 onChange={(evento) => aoMudarTextoDeBusca?.(evento.target.value)} />
             )}
