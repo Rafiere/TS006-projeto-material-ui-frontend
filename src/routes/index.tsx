@@ -7,7 +7,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useAppThemeContext, useDrawerContext } from "../shared/contexts";
 import { useEffect } from "react";
-import { Dashboard, ListagemDeCidade } from "../pages";
+import { Dashboard, ListagemDePessoas } from "../pages";
 
 /**
  * Os endereços serão buscados de cima para baixo. Se a rota
@@ -27,9 +27,9 @@ export const AppRoutes = () => { //Esse é um componente do React que conterá t
                 path: '/pagina-inicial'
             },
             {
-                label: 'Cidades',
-                icon: 'location_city',
-                path: '/cidades'
+                label: 'Pessoas',
+                icon: 'people',
+                path: '/pessoas'
             },
         ]);
     }, []); //O "setDrawerOptions" será executado apenas uma vez, mesmo que naveguemos entre telas diferentes.
@@ -37,8 +37,8 @@ export const AppRoutes = () => { //Esse é um componente do React que conterá t
     return (
         <Routes>
             <Route path="/pagina-inicial" element={<Dashboard/>}/>
-            <Route path="/cidades" element={<ListagemDeCidade/>}/>
-            {/* <Route path="/cidades/detalhe/:id" element={}/> */}
+            <Route path="/pessoas" element={<ListagemDePessoas/>}/>
+            {/* <Route path="/pessoas/detalhe/:id" element={}/> */}
 
             <Route path="*" element={<Navigate to="pagina-inicial"/>} />
         </Routes>
