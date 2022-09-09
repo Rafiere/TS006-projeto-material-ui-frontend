@@ -7,7 +7,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useAppThemeContext, useDrawerContext } from "../shared/contexts";
 import { useEffect } from "react";
-import { Dashboard } from "../pages";
+import { Dashboard, ListagemDeCidade } from "../pages";
 
 /**
  * Os endereços serão buscados de cima para baixo. Se a rota
@@ -28,7 +28,7 @@ export const AppRoutes = () => { //Esse é um componente do React que conterá t
             },
             {
                 label: 'Cidades',
-                icon: 'star',
+                icon: 'location_city',
                 path: '/cidades'
             },
         ]);
@@ -37,7 +37,8 @@ export const AppRoutes = () => { //Esse é um componente do React que conterá t
     return (
         <Routes>
             <Route path="/pagina-inicial" element={<Dashboard/>}/>
-            <Route path="/cidades"/>
+            <Route path="/cidades" element={<ListagemDeCidade/>}/>
+            {/* <Route path="/cidades/detalhe/:id" element={}/> */}
 
             <Route path="*" element={<Navigate to="pagina-inicial"/>} />
         </Routes>
