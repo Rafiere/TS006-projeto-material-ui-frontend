@@ -38,7 +38,7 @@ export const AppRoutes = () => { //Esse é um componente do React que conterá t
         <Routes>
             <Route path="/pagina-inicial" element={<Dashboard/>}/>
             <Route path="/pessoas" element={<ListagemDePessoas/>}/>
-            {/* <Route path="/pessoas/detalhe/:id" element={}/> */}
+            <Route path="/pessoas/detalhe/:id" element={<p>Detalhe</p>}/>
 
             <Route path="*" element={<Navigate to="pagina-inicial"/>} />
         </Routes>
