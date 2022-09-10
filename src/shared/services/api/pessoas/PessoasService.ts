@@ -8,14 +8,14 @@ import { Api } from "../axios-config";
  * executada, podemos obter os dados dessa consulta.
  */
 
-interface IListagemPessoa {
+export interface IListagemPessoa {
     id: number;
     email: string;
     cidadeId: number; //Esse ID representará o relacionamento entre a pessoa e a cidade da pessoa.
     nomeCompleto: string;
 }
 
-interface IDetalhePessoa {
+export interface IDetalhePessoa {
     id: number;
     email: string;
     cidadeId: number; //Esse ID representará o relacionamento entre a pessoa e a cidade da pessoa.
