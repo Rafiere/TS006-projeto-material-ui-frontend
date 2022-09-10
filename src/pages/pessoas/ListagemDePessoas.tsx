@@ -118,63 +118,64 @@ export const ListagemDePessoas: React.FC = () => { //Esse será um componente fu
                     mostrarInputBuscar
                     textoBotaoNovo='Nova'
                     textoDaBusca={busca}
-                    aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })} />}>
+                    aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')}
+                    aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}/>}>
 
-            <TableContainer component={Paper}
-                variant="outlined"
-                sx={{ m: 1, width: 'auto' }}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Ações</TableCell>
-                            <TableCell>Nome Completo</TableCell>
-                            <TableCell>Email</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map(row => (
-                            <TableRow key={row.id}>
-                                <TableCell>
-                                    <IconButton size="small" onClick={() => handleDelete(row.id)}>
-                                        <Icon>delete</Icon>
-                                    </IconButton>
-                                    <IconButton size="small" onClick={() => navigate(`/pessoas/detalhe/${row.id}`)}>
-                                        <Icon>edit</Icon>
-                                    </IconButton>
-                                </TableCell>
-                                <TableCell>{row.nomeCompleto}</TableCell>
-                                <TableCell>{row.email}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
+                    <TableContainer component={Paper}
+                        variant="outlined"
+                        sx={{ m: 1, width: 'auto' }}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Ações</TableCell>
+                                    <TableCell>Nome Completo</TableCell>
+                                    <TableCell>Email</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map(row => (
+                                    <TableRow key={row.id}>
+                                        <TableCell>
+                                            <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                                                <Icon>delete</Icon>
+                                            </IconButton>
+                                            <IconButton size="small" onClick={() => navigate(`/pessoas/detalhe/${row.id}`)}>
+                                                <Icon>edit</Icon>
+                                            </IconButton>
+                                        </TableCell>
+                                        <TableCell>{row.nomeCompleto}</TableCell>
+                                        <TableCell>{row.email}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
 
-                    {totalCount === 0 && !isLoading && (
-                        <caption>{Environment.LISTAGEM_VAZIA}</caption>
-                    )}
+                            {totalCount === 0 && !isLoading && (
+                                <caption>{Environment.LISTAGEM_VAZIA}</caption>
+                            )}
 
-                    <TableFooter>
-                        {isLoading && (
-                            <TableRow>
-                                <TableCell colSpan={3}>
-                                    <LinearProgress variant='indeterminate' />
+                            <TableFooter>
+                                {isLoading && (
+                                    <TableRow>
+                                        <TableCell colSpan={3}>
+                                            <LinearProgress variant='indeterminate' />
 
-                                </TableCell>
-                            </TableRow>
-                        )}
-                        {(totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS) && (
-                            <TableRow>
-                                <TableCell colSpan={3}>
-                                    <Pagination
-                                        count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS)}
-                                        page={pagina}
-                                        onChange={(_, novaPagina) => setSearchParams({ busca, pagina: novaPagina.toString() }, { replace: true })} />
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableFooter>
-                </Table>
-            </TableContainer>
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                                {(totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS) && (
+                                    <TableRow>
+                                        <TableCell colSpan={3}>
+                                            <Pagination
+                                                count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS)}
+                                                page={pagina}
+                                                onChange={(_, novaPagina) => setSearchParams({ busca, pagina: novaPagina.toString() }, { replace: true })} />
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableFooter>
+                        </Table>
+                    </TableContainer>
 
-        </LayoutBaseDePagina>
+                </LayoutBaseDePagina>
     );
 }
