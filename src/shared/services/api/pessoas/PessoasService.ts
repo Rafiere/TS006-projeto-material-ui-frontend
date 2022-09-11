@@ -77,6 +77,8 @@ const create = async (dados: Omit<IDetalhePessoa, 'id'>): Promise<number | Error
 
     try {
 
+        console.log(dados);
+
         const { data } = await Api.post<IDetalhePessoa>('/pessoas', dados); //A API retornará um objeto do tipo "IDetalhePessoa" após ela ser chamada.
 
         if (data) {
