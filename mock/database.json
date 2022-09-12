@@ -1,12 +1,6 @@
 {
   "pessoas": [
     {
-      "id": 3,
-      "nomeCompleto": "Carla Li",
-      "email": "carlaleona@email.com",
-      "cidadeId": 2
-    },
-    {
       "id": 5,
       "email": "juca@email.com",
       "cidadeId": 1,
@@ -47,6 +41,16 @@
       "nomeCompleto": "José Amari",
       "email": "joseamarildo@jose",
       "cidadeId": "12345"
+    }
+  ],
+  "cidades": [
+    {
+      "nome": "Porto Alegre",
+      "id": 1
+    },
+    {
+      "nome": "Jundiaí",
+      "id": 2
     }
   ]
 }
