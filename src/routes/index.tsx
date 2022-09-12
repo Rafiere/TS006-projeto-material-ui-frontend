@@ -8,6 +8,8 @@ import { Button } from "@mui/material";
 import { useAppThemeContext, useDrawerContext } from "../shared/contexts";
 import { useEffect } from "react";
 import { Dashboard, DetalheDePessoas, ListagemDePessoas } from "../pages";
+import { ListagemDeCidades } from "../pages/cidades/ListagemDeCidades";
+import { DetalheDeCidades } from "../pages/cidades/DetalheDeCidades";
 
 /**
  * Os endereços serão buscados de cima para baixo. Se a rota
@@ -31,14 +33,23 @@ export const AppRoutes = () => { //Esse é um componente do React que conterá t
                 icon: 'people',
                 path: '/pessoas'
             },
+            {
+                label: 'Cidades',
+                icon: 'location_city',
+                path: '/cidades'
+            },
         ]);
     }, []); //O "setDrawerOptions" será executado apenas uma vez, mesmo que naveguemos entre telas diferentes.
 
     return (
         <Routes>
             <Route path="/pagina-inicial" element={<Dashboard/>}/>
+            
             <Route path="/pessoas" element={<ListagemDePessoas/>}/>
             <Route path="/pessoas/detalhe/:id" element={<DetalheDePessoas/>}/>
+
+            <Route path="/cidades" element={<ListagemDeCidades/>}/>
+            <Route path="/cidades/detalhe/:id" element={<DetalheDeCidades/>}/>
 
             <Route path="*" element={<Navigate to="pagina-inicial"/>} />
         </Routes>
