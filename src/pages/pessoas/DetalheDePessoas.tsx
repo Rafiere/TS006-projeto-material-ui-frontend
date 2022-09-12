@@ -6,6 +6,9 @@ import { FerramentasDeDetalhe } from "../../shared/components/ferramentas-de-det
 import { VTextField, VForm, useVForm } from "../../shared/forms";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { PessoasService } from "../../shared/services/api/pessoas/PessoasService";
+import * as yup from "yup"
+import { IVFormErrors } from "../../shared/forms/IVFormErrors";
+
 
 /**
  * Essa interface representa uma tipagem para os dados que serão gerados pelo formulário.
@@ -17,6 +20,18 @@ interface IFormData {
     cidadeId: number;
     nomeCompleto: string;
 }
+
+/**
+ * Esse será o schema de validação para os dados do formulário que
+ * serão enviados para o back-end.
+ */
+
+const formValidationSchema: yup.SchemaOf<IFormData> = yup.object()
+    .shape({
+        nomeCompleto: yup.string().required().min(3),
+        email: yup.string().required().email(),
+        cidadeId: yup.number().required()
+    });
 
 export const DetalheDePessoas: React.FC = () => {
 
@@ -31,43 +46,64 @@ export const DetalheDePessoas: React.FC = () => {
 
     const handleSave = (dados: IFormData) => {
 
-        setIsLoading(true);
+        formValidationSchema.validate(
+            dados, { abortEarly: false } //O "abortEarly" parará a validação no primeiro campo que o erro ocorrer, e isso não é intuitivo para o usuário, assim, com essa propriedade "false", o usuário verá todas as mensagens de erro.
+        ).
+            then((dadosValidados) => {
+                setIsLoading(true);
 
-        if (id === 'nova') {
+                if (id === 'nova') {
 
-            PessoasService.create(dados) //Estamos obtendo o ID do usuário que foi cadastrado.
-                .then((result) => {
+                    PessoasService.create(dadosValidados) //Estamos obtendo o ID do usuário que foi cadastrado.
+                        .then((result) => {
 
-                    setIsLoading(false);
+                            setIsLoading(false);
 
-                    if (result instanceof Error) {
-                        alert(result.message);
-                    } else {
-                        if(isSaveAndClose()){ //Se estamos criando um serviço novo e clicamos no botão "salvar e fechar", queremos fechar a tela de detalhe, ou seja, navegar para a tela "/pessoas" e voltar para a listagem.
-                            navigate('/pessoas');
-                        } else {
-                            navigate(`/pessoas/detalhe/${result}`);
-                        }
+                            if (result instanceof Error) {
+                                alert(result.message);
+                            } else {
+                                if (isSaveAndClose()) { //Se estamos criando um serviço novo e clicamos no botão "salvar e fechar", queremos fechar a tela de detalhe, ou seja, navegar para a tela "/pessoas" e voltar para a listagem.
+                                    navigate('/pessoas');
+                                } else {
+                                    navigate(`/pessoas/detalhe/${result}`);
+                                }
+                            }
+                        })
+
+                } else { //Dependendo do botão em que o usuário clicar, ele criará uma nova pessoa ou atualizará uma pessoa já existente.
+
+                    PessoasService.updateById(Number(id), { id: Number(id), ...dadosValidados }) //Estamos obtendo o ID do usuário que foi cadastrado.
+                        .then((result) => {
+
+                            setIsLoading(false);
+
+                            if (result instanceof Error) {
+                                alert(result.message);
+                            } else {
+                                if (isSaveAndClose()) {
+                                    navigate('/pessoas');
+                                }
+                            }
+                        })
+
+                }
+            })
+            .catch((errors: yup.ValidationError) => {
+                const validationErrors: IVFormErrors = {}; //Estamos inicializando um mapa com as chaves e valores do tipo string.
+                
+                errors.inner.forEach(error => {
+                    if(!error.path){ //Se o erro for undefined, retornaremos.
+                        return;
                     }
+
+                    validationErrors[error.path] = error.message //Vamos passar por cada um dos erros que ocorreram no formulário e criar um mapa com os erros que foram gerados.
                 })
 
-        } else { //Dependendo do botão em que o usuário clicar, ele criará uma nova pessoa ou atualizará uma pessoa já existente.
+                console.log(validationErrors);
+                formRef.current?.setErrors(validationErrors); //Estamos passando os erros gerados para o Yup para o formulário.
+            });
 
-            PessoasService.updateById(Number(id), { id: Number(id), ...dados }) //Estamos obtendo o ID do usuário que foi cadastrado.
-                .then((result) => {
 
-                    setIsLoading(false);
-
-                    if (result instanceof Error) {
-                        alert(result.message);
-                    } else {
-                        if(isSaveAndClose()){
-                            navigate('/pessoas');
-                        }
-                    }
-                })
-
-        }
     }
 
     const handleDelete = (id: number) => {
