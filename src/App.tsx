@@ -5,6 +5,7 @@
  */
 
 import { BrowserRouter } from "react-router-dom"
+import './shared/forms/TraducoesYup'; //Esse import serve para adicionar as mensagens de erro traduzidas para o Yup.
 import { AppRoutes } from "./routes";
 import { MenuLateral } from "./shared/components";
 import { DrawerProvider } from "./shared/contexts";
