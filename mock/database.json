@@ -2,9 +2,9 @@
   "pessoas": [
     {
       "id": 3,
+      "nomeCompleto": "Carla Li",
       "email": "carlaleona@email.com",
-      "cidadeId": 2,
-      "nomeCompleto": "Carla Leona"
+      "cidadeId": 2
     },
     {
       "id": 5,
@@ -41,12 +41,6 @@
       "email": "marcelateste@teste.com",
       "cidadeId": 5,
       "nomeCompleto": "Marcela Teste"
-    },
-    {
-      "nomeCompleto": "teste",
-      "email": "1234@email",
-      "cidadeId": "1234",
-      "id": 16
     },
     {
       "id": 17,
