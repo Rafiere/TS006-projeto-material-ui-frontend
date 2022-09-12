@@ -1,11 +1,9 @@
-import { LinearProgress, TextField } from "@mui/material";
+import { Box, Grid, LinearProgress, Paper, TextField, Typography } from "@mui/material";
 import { FormHandles } from "@unform/core";
-import { Form } from "@unform/web";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { setEnvironmentData } from "worker_threads";
 import { FerramentasDeDetalhe } from "../../shared/components/ferramentas-de-detalhe/FerramentasDeDetalhe";
-import { VTextField } from "../../shared/forms";
+import { VTextField, VForm, useVForm } from "../../shared/forms";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { PessoasService } from "../../shared/services/api/pessoas/PessoasService";
 
@@ -26,7 +24,7 @@ export const DetalheDePessoas: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const formRef = useRef<FormHandles>(null); //Esse hook serve para pegarmos uma referência do componente de formulário e armazenarmos nessa constante, assim, podemos dar um submit visual no formulário.
+    const { formRef, save, saveAndClose, isSaveAndClose } = useVForm() //Esse hook serve para pegarmos uma referência do componente de formulário e armazenarmos nessa constante, assim, podemos dar um submit visual no formulário.
 
     const [isLoading, setIsLoading] = useState(false);
     const [nome, setNome] = useState('');
@@ -45,8 +43,11 @@ export const DetalheDePessoas: React.FC = () => {
                     if (result instanceof Error) {
                         alert(result.message);
                     } else {
-                        console.log(dados);
-                        navigate(`/pessoas/detalhe/${result}`);
+                        if(isSaveAndClose()){ //Se estamos criando um serviço novo e clicamos no botão "salvar e fechar", queremos fechar a tela de detalhe, ou seja, navegar para a tela "/pessoas" e voltar para a listagem.
+                            navigate('/pessoas');
+                        } else {
+                            navigate(`/pessoas/detalhe/${result}`);
+                        }
                     }
                 })
 
@@ -59,6 +60,10 @@ export const DetalheDePessoas: React.FC = () => {
 
                     if (result instanceof Error) {
                         alert(result.message);
+                    } else {
+                        if(isSaveAndClose()){
+                            navigate('/pessoas');
+                        }
                     }
                 })
 
@@ -101,6 +106,12 @@ export const DetalheDePessoas: React.FC = () => {
                         formRef.current?.setData(resultado); //Estamos setando os dados nas caixas de texto após o usuário ser salvo.
                     }
                 })
+        } else { //Os dados do input serão limpos quando clicarmos em "Nova".
+            formRef.current?.setData({
+                nomeCompleto: '',
+                email: '',
+                cidadeId: ''
+            });
         }
     }, [id])
 
@@ -132,8 +143,8 @@ export const DetalheDePessoas: React.FC = () => {
                     aoClicarEmNovo={() => { navigate('/pessoas/detalhe/nova') }}
                     aoClicarEmVoltar={() => { navigate('/pessoas') }}
                     aoClicarEmApagar={() => handleDelete(Number(id))}
-                    aoClicarEmSalvar={() => formRef.current?.submitForm()}
-                    aoClicarEmSalvarEFechar={() => formRef.current?.submitForm()} />
+                    aoClicarEmSalvar={save}
+                    aoClicarEmSalvarEFechar={saveAndClose} />
             }>
 
             {/* {isLoading && (
@@ -144,11 +155,86 @@ export const DetalheDePessoas: React.FC = () => {
                     Passaremos o objeto com os atributos do formulário para o método "handleSave", que lidará com esses dados.
                 */}
 
-            <Form ref={formRef} onSubmit={handleSave}>
-                <VTextField placeholder='Nome' name='nomeCompleto' />
-                <VTextField placeholder='Email' name='email' />
-                <VTextField placeholder='Cidade ID' name='cidadeId' />
-            </Form>
+            {/*
+                No Layout Grid, teremos uma caixa em volta dos componentes. Essa caixa é o
+                container. Dentro do container, temos várias caixinhas, que são os "grid items".
+
+                Tudo que estiver no Grid Container será dividido em 12 partes, o "12" representa "100%". Se
+                colocarmos que um elemento possui "xs=8", isso significa que ocuparemos uma certa
+                porcentagem da tela.
+
+                Com o Layout Grid é muito mais fácil de organizarmos os inputs na tela.
+                O "md", "xs" são os tamanhos de acordo com o tamanho da tela. De acordo com
+                o tamanho da tela atual, um componente pode ocupar quantidades diferentes de espaço do
+                total de um Grid Container, que são 12 espaços.
+            
+                Todo "<Grid>" que possui um Grid como filho é um container. Se ele for filho de
+                um grid e pai de outro grid, ele será um "item" e um "container" ao mesmo tempo.
+            
+                O atributo "direction='row'" define que os grids que estiverem dentro do grid atual deverão
+                ficar no formato de linha, e não um abaixo do outro.
+
+                Basicamente, quando o tamanho de tela estiver entre 0px e 600px, que é o tamanho "xs", o Grid ocupará, na
+                tela, o valor do "xs".
+
+                Se não informarmos o "sm", por exemplo, o Material UI utilizará o tamanho do "xs" até o "md".
+            */}
+
+            <VForm ref={formRef} onSubmit={handleSave}>
+                <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined">
+
+                    <Grid container direction="column" padding={2} spacing={2}>
+
+                        <Grid item>
+                            <Typography variant='h6'>
+                                Geral
+                            </Typography>
+                        </Grid>
+
+                        {isLoading && (<Grid item>
+                            <LinearProgress variant="indeterminate" />
+                        </Grid>)}
+
+                        <Grid container item direction="row">
+                            <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+
+                                <VTextField
+                                    fullWidth
+                                    label='Nome'
+                                    name='nomeCompleto'
+                                    disabled={isLoading}
+                                    onChange={e => setNome(e.target.value)} />
+
+                            </Grid>
+                        </Grid>
+
+                        <Grid container item direction="row">
+                            <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+
+                                <VTextField
+                                    fullWidth
+                                    label='Email'
+                                    name='email'
+                                    disabled={isLoading} />
+
+                            </Grid>
+                        </Grid>
+
+                        <Grid container item direction="row">
+                            <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+
+                                <VTextField
+                                    fullWidth
+                                    label='Cidade ID'
+                                    name='cidadeId'
+                                    disabled={isLoading} />
+
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                </Box>
+            </VForm>
 
             {
 
