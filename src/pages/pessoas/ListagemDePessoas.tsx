@@ -127,7 +127,7 @@ export const ListagemDePessoas: React.FC = () => { //Esse será um componente fu
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Ações</TableCell>
+                                    <TableCell width={100}>Ações</TableCell>
                                     <TableCell>Nome Completo</TableCell>
                                     <TableCell>Email</TableCell>
                                 </TableRow>
