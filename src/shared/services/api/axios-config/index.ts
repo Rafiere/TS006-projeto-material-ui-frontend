@@ -8,7 +8,10 @@ import { errorInterceptor, responseInterceptor } from './interceptors';
  */
 
 const Api = axios.create({
-    baseURL: Environment.URL_BASE
+    baseURL: Environment.URL_BASE,
+    headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('APP_ACCESS_TOKEN') || '""')}` //Sempre que enviarmos uma requisição, será enviado o bearer token, que estará armazenado no local storage da aplicação.
+    }
 });
 
 Api.interceptors.response.use(
