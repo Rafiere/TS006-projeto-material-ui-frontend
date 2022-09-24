@@ -7,23 +7,30 @@
 import { BrowserRouter } from "react-router-dom"
 import './shared/forms/TraducoesYup'; //Esse import serve para adicionar as mensagens de erro traduzidas para o Yup.
 import { AppRoutes } from "./routes";
-import { MenuLateral } from "./shared/components";
+import { Login, MenuLateral } from "./shared/components";
 import { DrawerProvider } from "./shared/contexts";
 import { AppThemeProvider } from "./shared/contexts/ThemeContext";
+import { AuthProvider } from "./shared/contexts/AuthContext";
+
+//Se não estamos autenticados no sistema, todos os filhos do componente "Login" não serão exibidos.
 
 export const App = () => {
   return (
-    <AppThemeProvider>
-      <DrawerProvider>
-        <BrowserRouter>
-          <MenuLateral>
+    <AuthProvider>
+      <AppThemeProvider>
+        <Login>
+          <DrawerProvider>
+            <BrowserRouter>
+              <MenuLateral>
 
-            <AppRoutes />
+                <AppRoutes />
 
-          </MenuLateral>
-        </BrowserRouter>
-      </DrawerProvider>
-    </AppThemeProvider>
+              </MenuLateral>
+            </BrowserRouter>
+          </DrawerProvider>
+        </Login>
+      </AppThemeProvider>
+    </AuthProvider>
   );
 }
 
