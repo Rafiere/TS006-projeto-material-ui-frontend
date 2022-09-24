@@ -5,13 +5,13 @@ import { LayoutBaseDePagina } from "../../shared/layouts";
 import { CidadesService } from "../../shared/services/api/cidades/CidadesService";
 import { PessoasService } from "../../shared/services/api/pessoas/PessoasService";
 
-const [isLoadingCidades, setIsLoadingCidades] = useState(true);
-const [totalCountCidades, setTotalCountCidades] = useState(0);
-
-const [isLoadingPessoas, setIsLoadingPessoas] = useState(true);
-const [totalCountPessoas, setTotalCountPessoas] = useState(0);
-
 export const Dashboard = () => {
+
+    const [isLoadingCidades, setIsLoadingCidades] = useState(true);
+    const [totalCountCidades, setTotalCountCidades] = useState(0);
+
+    const [isLoadingPessoas, setIsLoadingPessoas] = useState(true);
+    const [totalCountPessoas, setTotalCountPessoas] = useState(0);
 
     useEffect(() => {
 
