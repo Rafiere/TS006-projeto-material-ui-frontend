@@ -56,5 +56,8 @@
       "nome": "Patos de Minas",
       "id": 3
     }
-  ]
+  ],
+  "auth": {
+    "accessToken": "aaaaaaaa.bbbbbbbb.cccccccc"
+  }
 }
