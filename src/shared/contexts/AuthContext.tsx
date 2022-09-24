@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { AuthService } from "../services/api/auth/AuthService";
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -54,7 +54,7 @@ const handleLogout = useCallback(() => {
 }, []);
 
 //O "!!accessToken" serve para realizarmos um casting do "accessToken" para boolean.
-const isAuthenticated = useMemo(() => !!accessToken, []); //O useMemo servirá para verificarmos se temos ou não o access token localmente.
+const isAuthenticated = useMemo(() => !!accessToken, [accessToken]); //O useMemo servirá para verificarmos se temos ou não o access token localmente.
 
     return (
 
@@ -63,3 +63,6 @@ const isAuthenticated = useMemo(() => !!accessToken, []); //O useMemo servirá p
         </AuthContext.Provider>
     );
 }
+
+//Esse hook permitirá que o contexto de autenticação seja utilizado em qualquer lugar de nossa aplicação.
+export const useAuthContext = () => useContext(AuthContext);
