@@ -2,6 +2,7 @@ import { Avatar, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, List
 import { Box } from "@mui/system";
 import { useMatch, useNavigate, useResolvedPath } from "react-router";
 import { useAppThemeContext, useDrawerContext } from "../../contexts";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 /**
  * Drawer
@@ -88,6 +89,7 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => { //A 
     const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
 
     const { toggleTheme } = useAppThemeContext();
+    const { logout } = useAuthContext();
 
     //O Material UI tem uma unidade de medida própria. Um "spacing"
     //equivale a 4 pixels. SEMPRE QUE TIVERMOS QUE UTILIZAR UM VALOR
@@ -125,6 +127,13 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => { //A 
                                         <Icon>dark_mode</Icon>
                                     </ListItemIcon>
                                     <ListItemText primary="Alternar Tema" />
+                                </ListItemButton>
+
+                                <ListItemButton onClick={logout}>
+                                    <ListItemIcon>
+                                        <Icon>logout</Icon>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Sair" />
                                 </ListItemButton>
                         </List>
                     </Box>
